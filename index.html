@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div>
+      <div class="wrapper">
+        <div class="images">
+          <div class="img1"></div>
+          <div class="img2"></div>
+        </div>
+        <div class="slider">
+          <div class="drag-line">
+            <span></span>
+          </div>
+          <input type="range" name="" id="" min="0" max="100" value="50" />
+        </div>
+      </div>
+    </div>
+    <script>
+      const slider = document.querySelector(".slider input");
+      const dragLine = document.querySelector(".drag-line");
+      const img = document.querySelector(".img2");
+      let wrapper = document.querySelector(".wrapper");
+      slider.oninput = () => {
+        let sliderValue = slider.value;
+        dragLine.style.left = sliderValue + "%";
+        img.style.width = sliderValue + "%";
+      };
+
+      var valueHover = 0;
+      function calcSliderPos(e) {
+        return (
+          (e.offsetX / e.target.clientWidth) *
+          parseInt(e.target.getAttribute("max"), 10)
+        );
+      }
+
+      wrapper.addEventListener("mousemove", (e) => {
+        valueHover = calcSliderPos(e).toFixed(2);
+        dragLine.style.left = valueHover + "%";
+        img.style.width = valueHover + "%";
+        console.log(img)
+      });
+    </script>
+  </body>
+</html>
