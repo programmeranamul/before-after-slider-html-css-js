@@ -8,32 +8,39 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div>
-      <div class="wrapper">
-        <div class="images">
-          <div class="img1"></div>
-          <div class="img2"></div>
+    <div class="slider_wrapper">
+      <img src="./1.jpg" alt="" />
+      <img id="after_img" src="./2.jpg" alt="" />
+      <div class="slider">
+        <div class="drag-line">
+          <span></span>
         </div>
-        <div class="slider">
-          <div class="drag-line">
-            <span></span>
-          </div>
-          <input type="range" name="" id="" min="0" max="100" value="50" />
-        </div>
+        <input type="range" name="" id="input" min="0" max="100" value="50" />
       </div>
     </div>
+
     <script>
+      // select html element in js
       const slider = document.querySelector(".slider input");
       const dragLine = document.querySelector(".drag-line");
-      const img = document.querySelector(".img2");
-      let wrapper = document.querySelector(".wrapper");
+      const img = document.querySelector("#after_img");
+      const wrapper = document.querySelector(".slider_wrapper");
+      const input = document.querySelector("#input");
+
+      // oninput function in input type range
       slider.oninput = () => {
         let sliderValue = slider.value;
         dragLine.style.left = sliderValue + "%";
-        img.style.width = sliderValue + "%";
+        img.style.clipPath =
+          "polygon(0 0," +
+          sliderValue +
+          "% 0, " +
+          sliderValue +
+          "% 100%, 0 100%)";
       };
 
-      var valueHover = 0;
+      // calculate mouse move value
+      let valueHover = 0;
       function calcSliderPos(e) {
         return (
           (e.offsetX / e.target.clientWidth) *
@@ -41,11 +48,21 @@
         );
       }
 
+      // add mouse move event listener in parent div
       wrapper.addEventListener("mousemove", (e) => {
         valueHover = calcSliderPos(e).toFixed(2);
+        if (valueHover < 0) {
+          valueHover = 0;
+        }
+        if (valueHover > 100) valueHover = 100;
+        input.style.cursor = "col-resize";
         dragLine.style.left = valueHover + "%";
-        img.style.width = valueHover + "%";
-        console.log(img)
+        img.style.clipPath =
+          "polygon(0 0," +
+          valueHover +
+          "% 0, " +
+          valueHover +
+          "% 100%, 0 100%)";
       });
     </script>
   </body>
